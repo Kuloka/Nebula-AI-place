@@ -40,6 +40,7 @@
   let agentProgress = [];
   let progressDismissed = false;
   let codingPreviewItems = [];
+  let expandedModelFamilies = new Set();
   let acceptedChangeChatId = null;
   let pendingApprovalResolve = null;
   let typingTimer = null;
@@ -142,6 +143,7 @@
       newChat: "New chat",
       projects: "Projects",
       recent: "Recent",
+      emptyRecent: "Write something to the neural network and your chats will be saved here.",
       models: "Models",
       chooseModel: "Choose model",
       askPlaceholder: "Ask Nebula anything...",
@@ -443,6 +445,24 @@
     };
   });
 
+  Object.assign(UI_TEXT.ru, {
+    emptyRecent: "\u041d\u0430\u043f\u0438\u0448\u0438\u0442\u0435 \u0447\u0442\u043e-\u0442\u043e \u043d\u0435\u0439\u0440\u043e\u0441\u0435\u0442\u0438, \u0438 \u0432\u0430\u0448\u0438 \u0447\u0430\u0442\u044b \u0431\u0443\u0434\u0443\u0442 \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u044b \u0437\u0434\u0435\u0441\u044c."
+  });
+
+  const EMPTY_RECENT_TEXT = {
+    es: "Escribe algo a la IA y tus chats se guardaran aqui.",
+    fr: "Ecris quelque chose a l'IA et tes chats seront sauvegardes ici.",
+    de: "Schreibe der KI etwas, und deine Chats werden hier gespeichert.",
+    pt: "Escreva algo para a IA e seus chats serao salvos aqui.",
+    it: "Scrivi qualcosa all'IA e le tue chat saranno salvate qui.",
+    tr: "Yapay zekaya bir sey yaz, sohbetlerin burada kaydedilecek.",
+    pl: "Napisz cos do AI, a twoje czaty zostana zapisane tutaj.",
+    uk: "\u041d\u0430\u043f\u0438\u0448\u0456\u0442\u044c \u0449\u043e\u0441\u044c \u043d\u0435\u0439\u0440\u043e\u043c\u0435\u0440\u0435\u0436\u0456, \u0456 \u0432\u0430\u0448\u0456 \u0447\u0430\u0442\u0438 \u0431\u0443\u0434\u0443\u0442\u044c \u0437\u0431\u0435\u0440\u0435\u0436\u0435\u043d\u0456 \u0442\u0443\u0442."
+  };
+  Object.entries(EMPTY_RECENT_TEXT).forEach(([code, text]) => {
+    if (UI_TEXT[code]) UI_TEXT[code].emptyRecent = text;
+  });
+
   function t(key) {
     const lang = UI_TEXT[settings.appLanguage] ? settings.appLanguage : "en";
     return key.split(".").reduce((obj, part) => obj && obj[part], UI_TEXT[lang]) || key;
@@ -683,6 +703,7 @@
           }
           settings.downloadedLanguages = Array.from(next);
           applyAppLanguageBasics();
+          renderSidebar();
           renderSettings();
           persist();
         });
@@ -2292,7 +2313,7 @@
     if (data.chats.length === 0) {
       const hint = document.createElement("div");
       hint.className = "history-drop-hint";
-      hint.textContent = "Нет чатов. Нажмите + чтобы создать.";
+      hint.textContent = t("emptyRecent");
       chatHistoryList.appendChild(hint);
     }
   }
@@ -2391,6 +2412,23 @@
     modelsSearch.addEventListener("input", () => renderModelsCatalog(modelsSearch.value));
   }
 
+  function modelFamilyName(model) {
+    const name = model.name.toLowerCase();
+    if (name.startsWith("llama") || name.includes("codellama")) return "Llama";
+    if (name.startsWith("qwen")) return "Qwen";
+    if (name.startsWith("gemma")) return "Gemma";
+    if (name.startsWith("gpt-oss")) return "GPT-OSS";
+    if (name.startsWith("deepseek")) return "DeepSeek";
+    if (name.startsWith("mistral")) return "Mistral";
+    if (name.startsWith("phi")) return "Phi";
+    if (name.startsWith("llava")) return "LLaVA";
+    if (name.startsWith("starcoder")) return "StarCoder";
+    if (name.startsWith("tinyllama")) return "TinyLlama";
+    if (name.startsWith("smollm")) return "SmolLM";
+    if (name.startsWith("moondream")) return "Moondream";
+    return model.category || "Other";
+  }
+
   function renderModelsCatalog(filter) {
     const body = $("modelsModalBody");
     body.innerHTML = "";
@@ -2404,42 +2442,67 @@
     }
 
     const installedNames = availableModels.map(m => m.name);
-    const lower = filter.toLowerCase();
+    const lower = (filter || "").toLowerCase();
+    const allModels = [...MODEL_CATALOG];
+    availableModels
+      .filter(m => !MODEL_CATALOG.find(c => c.name === m.name))
+      .forEach(m => allModels.push({
+        name: m.name,
+        desc: "Installed locally",
+        size: formatSize(m.size),
+        category: "Installed"
+      }));
 
-    const categories = {};
-    MODEL_CATALOG.forEach(m => {
-      if (lower && !m.name.toLowerCase().includes(lower) && !m.desc.toLowerCase().includes(lower) && !m.category.toLowerCase().includes(lower)) return;
-      if (!categories[m.category]) categories[m.category] = [];
-      categories[m.category].push(m);
+    const families = {};
+    allModels.forEach(model => {
+      const family = modelFamilyName(model);
+      const matches = !lower ||
+        family.toLowerCase().includes(lower) ||
+        model.name.toLowerCase().includes(lower) ||
+        String(model.desc || "").toLowerCase().includes(lower) ||
+        String(model.category || "").toLowerCase().includes(lower);
+      if (!matches) return;
+      if (!families[family]) families[family] = [];
+      families[family].push(model);
     });
 
-    // также показываем установленные модели, которых нет в каталоге
-    const extraInstalled = availableModels.filter(m => !MODEL_CATALOG.find(c => c.name === m.name));
-    if (extraInstalled.length && !lower) {
-      categories["Установленные (другие)"] = extraInstalled.map(m => ({
-        name: m.name, desc: "Установлена локально", size: formatSize(m.size), category: "Установленные (другие)"
-      }));
-    }
+    const familyNames = Object.keys(families).sort((a, b) => a.localeCompare(b));
+    familyNames.forEach(family => {
+      const models = families[family].sort((a, b) => a.name.localeCompare(b.name));
+      const hasActive = models.some(m => m.name === settings.selectedModel);
+      const installedCount = models.filter(m => installedNames.includes(m.name)).length;
+      const hasPulling = models.some(m => pullingModels[m.name] !== undefined);
+      const isOpen = lower || hasActive || expandedModelFamilies.has(family);
 
-    Object.entries(categories).forEach(([cat, models]) => {
       const section = document.createElement("section");
-      section.className = "models-provider-section";
-      const label = document.createElement("div");
-      label.className = "model-category-label";
-      label.innerHTML = `<span>${escapeHtml(cat)}</span>`;
-      section.appendChild(label);
-      const grid = document.createElement("div");
-      grid.className = "models-card-grid";
-      section.appendChild(grid);
-      body.appendChild(section);
+      section.className = `model-family ${isOpen ? "open" : ""}`;
+      const head = document.createElement("button");
+      head.type = "button";
+      head.className = "model-family-head";
+      const familyMeta = `${models.length} versions${installedCount ? ` ? ${installedCount} installed` : ""}${hasPulling ? " ? downloading" : ""}`;
+      head.innerHTML = `
+        <span class="model-family-icon">${providerIconMarkup(models[0])}</span>
+        <span class="model-family-main">
+          <strong>${escapeHtml(family)}</strong>
+          <small>${escapeHtml(familyMeta)}</small>
+        </span>
+        <span class="model-family-chevron">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+        </span>
+      `;
+      head.addEventListener("click", () => {
+        if (expandedModelFamilies.has(family)) expandedModelFamilies.delete(family);
+        else expandedModelFamilies.add(family);
+        renderModelsCatalog(modelsSearch ? modelsSearch.value : filter);
+      });
+      section.appendChild(head);
 
+      const list = document.createElement("div");
+      list.className = "model-version-list";
       models.forEach(m => {
         const isInstalled = installedNames.includes(m.name);
         const isActive = m.name === settings.selectedModel;
         const isPulling = pullingModels[m.name] !== undefined;
-
-        const item = document.createElement("div");
-        item.className = "catalog-item";
 
         let statusHtml = "";
         if (isActive) statusHtml += `<span class="catalog-item-status active">Active</span>`;
@@ -2451,27 +2514,18 @@
         let actionHtml = "";
         if (isPulling) {
           const pct = pullingModels[m.name];
-          actionHtml = `<div style="display:flex;align-items:center;gap:8px">
-              <div class="catalog-progress"><div class="catalog-progress-fill" style="width:${pct}%"></div></div>
-              <span style="font-size:11px;color:var(--text-muted);min-width:40px">${pct}%</span>
-            </div>`;
+          actionHtml = `<div class="catalog-progress-wrap"><div class="catalog-progress"><div class="catalog-progress-fill" style="width:${pct}%"></div></div><span>${pct}%</span></div>`;
         } else if (isInstalled) {
-          if (isActive) {
-            actionHtml = `<button class="catalog-btn" disabled>Активна</button>`;
-          } else {
-            actionHtml = `<div style="display:flex;gap:6px">
-              <button class="catalog-btn primary" data-action="select" data-model="${m.name}">Выбрать</button>
-              <button class="catalog-btn danger" data-action="delete" data-model="${m.name}" title="Удалить">✕</button>
-            </div>`;
-          }
+          actionHtml = isActive
+            ? `<button class="catalog-btn" disabled>${escapeHtml(t("selected"))}</button>`
+            : `<div class="catalog-actions"><button class="catalog-btn primary" data-action="select" data-model="${m.name}">${escapeHtml(t("choose"))}</button><button class="catalog-btn danger" data-action="delete" data-model="${m.name}" title="Delete">×</button></div>`;
         } else {
-          actionHtml = `<button class="catalog-btn primary" data-action="pull" data-model="${m.name}">Скачать</button>`;
+          actionHtml = `<button class="catalog-btn primary" data-action="pull" data-model="${m.name}">${escapeHtml(t("download"))}</button>`;
         }
 
+        const item = document.createElement("div");
+        item.className = "catalog-item compact";
         item.innerHTML = `
-          <div class="catalog-provider-icon">
-            ${providerIconMarkup(m)}
-          </div>
           <div class="catalog-item-info">
             <div class="catalog-item-name">${escapeHtml(m.name)}</div>
             <div class="catalog-item-desc">${escapeHtml(m.desc || "")}</div>
@@ -2490,7 +2544,7 @@
             } else if (action === "pull") {
               await pullModel(model, modelsSearch ? modelsSearch.value : filter);
             } else if (action === "delete") {
-              if (confirm(`Удалить модель «${model}»?`)) {
+              if (confirm(`Delete model "${model}"?`)) {
                 await window.api.deleteModel(model);
                 await checkOllama();
                 renderModelsCatalog(modelsSearch ? modelsSearch.value : filter);
@@ -2498,14 +2552,16 @@
             }
           });
         });
-        grid.appendChild(item);
+        list.appendChild(item);
       });
+      section.appendChild(list);
+      body.appendChild(section);
     });
 
-    if (Object.keys(categories).length === 0) {
+    if (familyNames.length === 0) {
       const empty = document.createElement("div");
       empty.className = "model-empty";
-      empty.textContent = "Ничего не найдено.";
+      empty.textContent = "Nothing found.";
       body.appendChild(empty);
     }
   }
