@@ -1,0 +1,16 @@
+{
+  "name": "nebula-ai-place",
+  "version": "1.0.0",
+  "description": "Nebula AI Place - local AI coding assistant powered by Ollama",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "check": "node --check electron/main.js && node --check electron/preload.js && node --check renderer.js"
+  },
+  "productName": "Nebula AI Place",
+  "private": true,
+  "devDependencies": {
+    "electron": "^28.0.0"
+  }
+}
