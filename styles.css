@@ -957,18 +957,27 @@ html, body {
   white-space: nowrap;
 }
 .terminal-panel {
-  height: 180px;
+  height: clamp(128px, 28vh, 180px);
+  min-height: 128px;
   display: none;
   flex-direction: column;
   border-top: 1px solid var(--border);
   background: var(--bg-main);
   flex-shrink: 0;
   order: 4;
+  overflow: hidden;
+}
+.main-area.home-mode .terminal-panel {
+  order: 2;
 }
 .terminal-panel.show { display: flex; animation: terminalIn 0.18s ease; }
 @keyframes terminalIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.terminal-tabs {
+  flex: 0 0 auto;
+}
 .terminal-output {
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: auto;
   padding: 8px 10px;
   font-family: var(--mono);
@@ -977,6 +986,7 @@ html, body {
   white-space: pre-wrap;
 }
 .terminal-prompt {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 6px;
