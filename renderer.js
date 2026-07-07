@@ -126,14 +126,9 @@
     { code: "en", name: "English" },
     { code: "ru", name: "\u0420\u0443\u0441\u0441\u043a\u0438\u0439" },
     { code: "es", name: "Espa\u00f1ol" },
-    { code: "zh", name: "\u4e2d\u6587" },
-    { code: "hi", name: "\u0939\u093f\u0928\u094d\u0926\u0940" },
-    { code: "ar", name: "\u0627\u0644\u0639\u0631\u0628\u064a\u0629" },
     { code: "pt", name: "Portugu\u00eas" },
     { code: "fr", name: "Fran\u00e7ais" },
     { code: "de", name: "Deutsch" },
-    { code: "ja", name: "\u65e5\u672c\u8a9e" },
-    { code: "ko", name: "\ud55c\uad6d\uc5b4" },
     { code: "it", name: "Italiano" },
     { code: "tr", name: "T\u00fcrk\u00e7e" },
     { code: "pl", name: "Polski" },
@@ -211,6 +206,42 @@
       accept: "Accept",
       acceptInChat: "Accept in this chat",
       denied: "Denied",
+      showProgress: "Show progress",
+      collapseProgress: "Collapse progress",
+      close: "Close",
+      closeSidebar: "Close sidebar",
+      openSidebar: "Open sidebar",
+      explorer: "Explorer",
+      toggleTerminal: "Toggle terminal",
+      togglePanel: "Toggle panel",
+      closePanel: "Close panel",
+      closeTerminal: "Close terminal",
+      attachFile: "Attach file",
+      send: "Send",
+      stop: "Stop",
+      accessMode: "Access mode",
+      thinkingLevel: "Thinking level",
+      moveToProject: "Move to project",
+      deleteChat: "Delete chat",
+      renameProject: "Rename project",
+      deleteProject: "Delete project",
+      deleteModel: "Delete model",
+      deleteModelConfirm: "Delete model",
+      openModelCatalog: "Open model catalog",
+      copyResponse: "Copy response",
+      movePromptNone: "No project",
+      movePromptTitle: "Choose project:",
+      searchChats: "Search chats:",
+      openProjectsError: "Could not open projects folder",
+      renameFolderTitle: "Rename folder",
+      renameFolderError: "Could not rename project folder",
+      createFolderError: "Could not create project folder",
+      deleteFolderConfirm: "Delete folder? Chats inside will stay and move to the general list.",
+      ollamaStarting: "Ollama is starting automatically.",
+      ollamaInstalling: "Ollama is installing or starting.",
+      ollamaWait: "Wait a few seconds and open the catalog again.",
+      unknownError: "unknown error",
+      ollamaStatus: "Ollama status",
       motivationLines: [
         "When you start, I start.",
         "Make the idea real.",
@@ -290,6 +321,42 @@
       "accept": "\u041f\u0440\u0438\u043d\u044f\u0442\u044c",
       "acceptInChat": "\u041f\u0440\u0438\u043d\u044f\u0442\u044c \u0432 \u044d\u0442\u043e\u043c \u0447\u0430\u0442\u0435",
       "denied": "\u041e\u0442\u043a\u043b\u043e\u043d\u0438\u0442\u044c",
+      "showProgress": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441",
+      "collapseProgress": "\u0421\u0432\u0435\u0440\u043d\u0443\u0442\u044c \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441",
+      "close": "\u0417\u0430\u043a\u0440\u044b\u0442\u044c",
+      "closeSidebar": "\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u0431\u043e\u043a\u043e\u0432\u0443\u044e \u043f\u0430\u043d\u0435\u043b\u044c",
+      "openSidebar": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0431\u043e\u043a\u043e\u0432\u0443\u044e \u043f\u0430\u043d\u0435\u043b\u044c",
+      "explorer": "\u041f\u0440\u043e\u0435\u043a\u0442\u044b",
+      "toggleTerminal": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0442\u0435\u0440\u043c\u0438\u043d\u0430\u043b",
+      "togglePanel": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043f\u0430\u043d\u0435\u043b\u044c",
+      "closePanel": "\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u043f\u0430\u043d\u0435\u043b\u044c",
+      "closeTerminal": "\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u0442\u0435\u0440\u043c\u0438\u043d\u0430\u043b",
+      "attachFile": "\u041f\u0440\u0438\u043a\u0440\u0435\u043f\u0438\u0442\u044c \u0444\u0430\u0439\u043b",
+      "send": "\u041e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u044c",
+      "stop": "\u041e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c",
+      "accessMode": "\u0420\u0435\u0436\u0438\u043c \u0434\u043e\u0441\u0442\u0443\u043f\u0430",
+      "thinkingLevel": "\u0423\u0440\u043e\u0432\u0435\u043d\u044c \u043e\u0431\u0434\u0443\u043c\u044b\u0432\u0430\u043d\u0438\u044f",
+      "moveToProject": "\u0412 \u043f\u0440\u043e\u0435\u043a\u0442",
+      "deleteChat": "\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0447\u0430\u0442",
+      "renameProject": "\u041f\u0435\u0440\u0435\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u0442\u044c \u043f\u0440\u043e\u0435\u043a\u0442",
+      "deleteProject": "\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u043f\u0440\u043e\u0435\u043a\u0442",
+      "deleteModel": "\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u043c\u043e\u0434\u0435\u043b\u044c",
+      "deleteModelConfirm": "\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u043c\u043e\u0434\u0435\u043b\u044c",
+      "openModelCatalog": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043a\u0430\u0442\u0430\u043b\u043e\u0433 \u043c\u043e\u0434\u0435\u043b\u0435\u0439",
+      "copyResponse": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u043e\u0442\u0432\u0435\u0442",
+      "movePromptNone": "\u0411\u0435\u0437 \u043f\u0440\u043e\u0435\u043a\u0442\u0430",
+      "movePromptTitle": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043f\u0440\u043e\u0435\u043a\u0442:",
+      "searchChats": "\u0418\u0441\u043a\u0430\u0442\u044c \u0447\u0430\u0442\u044b:",
+      "openProjectsError": "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u043f\u0430\u043f\u043a\u0443 \u043f\u0440\u043e\u0435\u043a\u0442\u043e\u0432",
+      "renameFolderTitle": "\u041f\u0435\u0440\u0435\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u0442\u044c \u043f\u0430\u043f\u043a\u0443",
+      "renameFolderError": "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u043f\u0435\u0440\u0435\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u0442\u044c \u043f\u0430\u043f\u043a\u0443 \u043f\u0440\u043e\u0435\u043a\u0442\u0430",
+      "createFolderError": "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u043f\u0430\u043f\u043a\u0443 \u043f\u0440\u043e\u0435\u043a\u0442\u0430",
+      "deleteFolderConfirm": "\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u043f\u0430\u043f\u043a\u0443? \u0427\u0430\u0442\u044b \u0432\u043d\u0443\u0442\u0440\u0438 \u043e\u0441\u0442\u0430\u043d\u0443\u0442\u0441\u044f \u0438 \u043f\u0435\u0440\u0435\u0439\u0434\u0443\u0442 \u0432 \u043e\u0431\u0449\u0438\u0439 \u0441\u043f\u0438\u0441\u043e\u043a.",
+      "ollamaStarting": "Ollama \u0437\u0430\u043f\u0443\u0441\u043a\u0430\u0435\u0442\u0441\u044f \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438.",
+      "ollamaInstalling": "Ollama \u0443\u0441\u0442\u0430\u043d\u0430\u0432\u043b\u0438\u0432\u0430\u0435\u0442\u0441\u044f \u0438\u043b\u0438 \u0437\u0430\u043f\u0443\u0441\u043a\u0430\u0435\u0442\u0441\u044f.",
+      "ollamaWait": "\u041f\u043e\u0434\u043e\u0436\u0434\u0438\u0442\u0435 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0441\u0435\u043a\u0443\u043d\u0434 \u0438 \u043e\u0442\u043a\u0440\u043e\u0439\u0442\u0435 \u043a\u0430\u0442\u0430\u043b\u043e\u0433 \u0441\u043d\u043e\u0432\u0430.",
+      "unknownError": "\u043d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u0430\u044f \u043e\u0448\u0438\u0431\u043a\u0430",
+      "ollamaStatus": "\u0421\u0442\u0430\u0442\u0443\u0441 Ollama",
       "motivationLines": [
             "\u0421\u043e\u0431\u0435\u0440\u0438 \u0442\u043e, \u0447\u0442\u043e \u0434\u0430\u0432\u043d\u043e \u043a\u0440\u0443\u0442\u0438\u0442\u0441\u044f \u0432 \u0433\u043e\u043b\u043e\u0432\u0435.",
             "\u041f\u0440\u0435\u0432\u0440\u0430\u0442\u0438 \u043f\u0443\u0441\u0442\u043e\u0439 \u044d\u043a\u0440\u0430\u043d \u0432 \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441.",
@@ -532,24 +599,25 @@
 
   function applyButtonTooltips() {
     const tooltips = {
-      settingsBtn: "Settings",
-      toggleTabBtn: "Close sidebar",
-      toolbarExplorerBtn: "Explorer",
-      toolbarTerminalBtn: "Toggle terminal",
-      toolbarPanelBtn: "Toggle panel",
-      progressHideBtn: "Collapse progress",
-      closePanelBtn: "Close panel",
-      closeTerminalBtn: "Close terminal",
-      attachBtn: "Attach file",
-      sendBtn: "Send",
-      stopBtn: "Stop",
-      modelBtn: "Choose model",
-      accessBtn: "Access mode",
-      thinkBtn: "Thinking level",
-      closeSettingsBtn: "Close",
-      closeModelsBtn: "Close",
-      closeGroupBtn: "Close",
-      approvalCloseBtn: "Close"
+      statusPill: t("ollamaStatus"),
+      settingsBtn: t("settings"),
+      toggleTabBtn: appEl?.classList.contains("tab-collapsed") ? t("openSidebar") : t("closeSidebar"),
+      toolbarExplorerBtn: t("explorer"),
+      toolbarTerminalBtn: t("toggleTerminal"),
+      toolbarPanelBtn: t("togglePanel"),
+      progressHideBtn: progressDismissed ? t("showProgress") : t("collapseProgress"),
+      closePanelBtn: t("closePanel"),
+      closeTerminalBtn: t("closeTerminal"),
+      attachBtn: t("attachFile"),
+      sendBtn: t("send"),
+      stopBtn: t("stop"),
+      modelBtn: t("chooseModel"),
+      accessBtn: t("accessMode"),
+      thinkBtn: t("thinkingLevel"),
+      closeSettingsBtn: t("close"),
+      closeModelsBtn: t("close"),
+      closeGroupBtn: t("close"),
+      approvalCloseBtn: t("close")
     };
     Object.entries(tooltips).forEach(([id, text]) => setTooltip($(id), text));
   }
@@ -608,15 +676,16 @@
     if (!settings.theme) settings.theme = "light";
     if (!settings.computeMode) settings.computeMode = "auto";
     if (!Array.isArray(settings.downloadedLanguages)) settings.downloadedLanguages = ["en"];
+    const allowedLanguages = new Set(APP_LANGUAGES.map(lang => lang.code));
+    settings.downloadedLanguages = settings.downloadedLanguages.filter(code => allowedLanguages.has(code));
     if (!settings.downloadedLanguages.includes("en")) settings.downloadedLanguages.unshift("en");
+    if (!allowedLanguages.has(settings.appLanguage)) settings.appLanguage = "en";
   }
 
   function migrateBrandNamesInData() {
     let changed = false;
-    const rename = value => String(value || "").replace(/^NevoProject/i, "NevoProject");
-    const corruptedDefaultChatTitles = [
-      "РќРѕРІС‹Р№ С‡Р°С‚"
-    ];
+    const rename = value => String(value || "").replace(/^NebulaProject/i, "NevoProject").replace(/^NevoProject/i, "NevoProject");
+    const looksCorrupted = value => /\u0420\u045c|\u0420\u0455|\u0420\u0406|\u0421\u2039|\u0421\u2021|\u0420\u00b0|\u0421\u201a|\u0420\u00a0|\u0412\u00a0|\u0432\u0402|�/.test(String(value || ""));
     data.groups.forEach(group => {
       const nextName = rename(group.name);
       const nextFolderName = rename(group.folderName || group.name);
@@ -630,14 +699,13 @@
       }
     });
     data.chats.forEach(chat => {
-      if (corruptedDefaultChatTitles.includes(String(chat.title || ""))) {
+      if (looksCorrupted(chat.title)) {
         chat.title = "";
         changed = true;
       }
     });
     if (changed) setTimeout(() => persist(), 0);
   }
-
   async function persist() {
     if (!window.api) return;
     await window.api.dataSave(data);
@@ -653,8 +721,7 @@
       progressCard.classList.toggle("collapsed", total > 0 && progressDismissed);
     }
     if (progressHideBtn) {
-      progressHideBtn.title = progressDismissed ? "Show progress" : "Collapse progress";
-      progressHideBtn.setAttribute("aria-label", progressDismissed ? "Show progress" : "Collapse progress");
+      setTooltip(progressHideBtn, progressDismissed ? t("showProgress") : t("collapseProgress"));
     }
 
     const renderInto = (root) => {
@@ -992,6 +1059,7 @@
     if (welcomeEl && welcomeEl.style.display !== "none" && welcomeTitle) {
       typeWelcomeTitle();
     }
+    applyButtonTooltips();
   }
 
   function typeWelcomeTitle() {
@@ -1283,9 +1351,11 @@
   });
   toggleTabBtn?.addEventListener("click", () => {
     appEl?.classList.add("tab-collapsed");
+    applyButtonTooltips();
   });
   sideLogo?.addEventListener("click", () => {
     appEl?.classList.remove("tab-collapsed");
+    applyButtonTooltips();
   });
   progressHideBtn?.addEventListener("click", () => {
     progressDismissed = !progressDismissed;
@@ -1327,10 +1397,10 @@
     if (res.ok) {
       appendTerminalLine(`explorer ${res.path}`);
     }
-    if (!res.ok) alert("РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ РїР°РїРєСѓ РїСЂРѕРµРєС‚РѕРІ: " + (res.error || res.path || "РЅРµРёР·РІРµСЃС‚РЅР°СЏ РѕС€РёР±РєР°"));
+    if (!res.ok) alert(`${t("openProjectsError")}: ${res.error || res.path || t("unknownError")}`);
   });
   searchChatsBtn?.addEventListener("click", () => {
-    const query = prompt("РСЃРєР°С‚СЊ С‡Р°С‚С‹:");
+    const query = prompt(t("searchChats"));
     if (!query) return;
     const found = data.chats.find(chat => {
       const title = chat.title || "";
@@ -1986,8 +2056,7 @@
       actions.className = "message-actions";
       const copyBtn = document.createElement("button");
       copyBtn.className = "msg-action-btn";
-      setTooltip(copyBtn, "Copy response");
-      copyBtn.title = "РљРѕРїРёСЂРѕРІР°С‚СЊ";
+      setTooltip(copyBtn, t("copyResponse"));
       copyBtn.innerHTML = `
         <span class="copy-icon copy-default" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="11" height="11" rx="2"/><rect x="4" y="4" width="11" height="11" rx="2"/></svg>
@@ -3088,7 +3157,7 @@
         if (window.api && window.api.renameProjectFolder) {
           const folder = await window.api.renameProjectFolder(g.folderName || g.name, name);
           if (folder.ok) g.folderName = folder.folderName;
-          else alert("РќРµ СѓРґР°Р»РѕСЃСЊ РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ РїР°РїРєСѓ РїСЂРѕРµРєС‚Р°: " + (folder.error || "РЅРµРёР·РІРµСЃС‚РЅР°СЏ РѕС€РёР±РєР°"));
+          else alert(`${t("renameFolderError")}: ${folder.error || t("unknownError")}`);
         }
         g.name = name;
       }
@@ -3097,7 +3166,7 @@
       if (window.api && window.api.ensureProjectFolder) {
         const folder = await window.api.ensureProjectFolder(name);
         if (folder.ok) folderName = folder.folderName;
-        else alert("РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕР·РґР°С‚СЊ РїР°РїРєСѓ РїСЂРѕРµРєС‚Р°: " + (folder.error || "РЅРµРёР·РІРµСЃС‚РЅР°СЏ РѕС€РёР±РєР°"));
+        else alert(`${t("createFolderError")}: ${folder.error || t("unknownError")}`);
       }
       data.groups.push({ id: "g" + Date.now(), name, folderName, collapsed: false });
     }
@@ -3108,7 +3177,7 @@
   $("groupInput").addEventListener("keydown", e => { if (e.key === "Enter") $("saveGroupBtn").click(); });
 
   function deleteGroup(id) {
-    if (!confirm("РЈРґР°Р»РёС‚СЊ РїР°РїРєСѓ? Р§Р°С‚С‹ РІРЅСѓС‚СЂРё РѕСЃС‚Р°РЅСѓС‚СЃСЏ (РїРµСЂРµР№РґСѓС‚ РІ РѕР±С‰РёР№ СЃРїРёСЃРѕРє).")) return;
+    if (!confirm(t("deleteFolderConfirm"))) return;
     data.groups = data.groups.filter(g => g.id !== id);
     data.chats.forEach(c => { if (c.groupId === id) c.groupId = null; });
     renderSidebar();
@@ -3155,10 +3224,10 @@
         </span>
         <span class="chat-group-name">${escapeHtml(g.name)}</span>
         <span class="chat-group-actions">
-          <button class="chat-group-action" title="РџРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ" data-act="rename">
+          <button class="chat-group-action" title="${escapeHtml(t("renameProject"))}" aria-label="${escapeHtml(t("renameProject"))}" data-tooltip="${escapeHtml(t("renameProject"))}" data-act="rename">
             <svg viewBox="0 0 24 24" width="11" height="11"><path fill="currentColor" d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
           </button>
-          <button class="chat-group-action" title="РЈРґР°Р»РёС‚СЊ" data-act="delete">
+          <button class="chat-group-action" title="${escapeHtml(t("deleteProject"))}" aria-label="${escapeHtml(t("deleteProject"))}" data-tooltip="${escapeHtml(t("deleteProject"))}" data-act="delete">
             <svg viewBox="0 0 24 24" width="11" height="11"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
           </button>
         </span>
@@ -3207,8 +3276,8 @@
     // РјРµРЅСЋ "РїРµСЂРµРјРµСЃС‚РёС‚СЊ"
     const moveBtn = document.createElement("button");
     moveBtn.className = "history-item-del";
-    setTooltip(moveBtn, "Move to project");
-    moveBtn.title = "Р’ РїР°РїРєСѓ";
+    moveBtn.dataset.tooltipPlace = "left";
+    setTooltip(moveBtn, t("moveToProject"));
     moveBtn.innerHTML = `<svg viewBox="0 0 24 24" width="11" height="11"><path fill="currentColor" d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>`;
     moveBtn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -3218,8 +3287,8 @@
 
     const delBtn = document.createElement("button");
     delBtn.className = "history-item-del";
-    setTooltip(delBtn, "Delete chat");
-    delBtn.title = "РЈРґР°Р»РёС‚СЊ";
+    delBtn.dataset.tooltipPlace = "left";
+    setTooltip(delBtn, t("deleteChat"));
     delBtn.innerHTML = `<svg viewBox="0 0 24 24" width="11" height="11"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
     delBtn.addEventListener("click", (e) => { e.stopPropagation(); deleteChat(c.id); });
     item.appendChild(delBtn);
@@ -3233,8 +3302,8 @@
 
   function showMoveMenu(chatId, anchor) {
     // РїСЂРѕСЃС‚РѕР№ prompt-СЃРїРёСЃРѕРє РіСЂСѓРїРї
-    const options = ["(Р±РµР· РіСЂСѓРїРїС‹)", ...data.groups.map(g => g.name)];
-    const choice = prompt("Р’С‹Р±РµСЂРёС‚Рµ РїР°РїРєСѓ:\n" + options.map((o, i) => `${i}: ${o}`).join("\n"), "0");
+    const options = [t("movePromptNone"), ...data.groups.map(g => g.name)];
+    const choice = prompt(t("movePromptTitle") + "\n" + options.map((o, i) => `${i}: ${o}`).join("\n"), "0");
     if (choice === null) return;
     const idx = parseInt(choice);
     if (isNaN(idx)) return;
@@ -3314,7 +3383,7 @@
     if (!ollamaRunning) {
       const warn = document.createElement("div");
       warn.className = "model-empty";
-      warn.innerHTML = `${statusDot.classList.contains("loading") ? "Ollama СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РёР»Рё Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ." : "Ollama Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё."}<br><small>РџРѕРґРѕР¶РґРёС‚Рµ РЅРµСЃРєРѕР»СЊРєРѕ СЃРµРєСѓРЅРґ Рё РѕС‚РєСЂРѕР№С‚Рµ РєР°С‚Р°Р»РѕРі СЃРЅРѕРІР°.</small>`;
+      warn.innerHTML = `${statusDot.classList.contains("loading") ? t("ollamaInstalling") : t("ollamaStarting")}<br><small>${t("ollamaWait")}</small>`;
       body.appendChild(warn);
       return;
     }
@@ -3398,7 +3467,7 @@
         } else if (isInstalled) {
           actionHtml = isActive
             ? `<button class="catalog-btn" disabled>${escapeHtml(t("selected"))}</button>`
-            : `<div class="catalog-actions"><button class="catalog-btn primary" data-action="select" data-model="${m.name}">${escapeHtml(t("choose"))}</button><button class="catalog-btn danger" data-action="delete" data-model="${m.name}" title="Delete" aria-label="Delete model" data-tooltip="Delete model">\u00d7</button></div>`;
+            : `<div class="catalog-actions"><button class="catalog-btn primary" data-action="select" data-model="${m.name}">${escapeHtml(t("choose"))}</button><button class="catalog-btn danger" data-action="delete" data-model="${m.name}" title="${escapeHtml(t("deleteModel"))}" aria-label="${escapeHtml(t("deleteModel"))}" data-tooltip="${escapeHtml(t("deleteModel"))}">\u00d7</button></div>`;
         } else {
           actionHtml = `<button class="catalog-btn primary" data-action="pull" data-model="${m.name}">${escapeHtml(t("download"))}</button>`;
         }
@@ -3425,7 +3494,7 @@
             } else if (action === "pull") {
               await pullModel(model, modelsSearch ? modelsSearch.value : filter);
             } else if (action === "delete") {
-              if (confirm(`Delete model "${model}"?`)) {
+              if (confirm(`${t("deleteModelConfirm")} "${model}"?`)) {
                 const deleted = await window.api.deleteModel(model);
                 if (deleted?.ok && settings.selectedModel === model) {
                   settings.selectedModel = null;
