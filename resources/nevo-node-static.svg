@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
-  <g stroke="#FF6A1A" stroke-width="2" opacity=".55">
+  <g fill="none" stroke="#FF6A1A" stroke-width="2" opacity=".55">
     <path d="M80 80 80 30M80 80 130 55M80 80 130 105M80 80 80 130M80 80 30 105M80 80 30 55M80 30 130 55 130 105 80 130 30 105 30 55Z"/>
   </g>
   <circle cx="80" cy="80" r="6" fill="#FFB27A"/>

@@ -139,7 +139,8 @@ html, body {
   height: 32px;
   display: block;
   object-fit: contain;
-  border-radius: 5px;
+  border-radius: 0;
+  background: transparent;
   transform: translateY(2px);
 }
 
@@ -1546,6 +1547,8 @@ body.has-composer-sheet .eb-layers {
   margin-top: 14px;
   object-fit: contain;
   user-select: none;
+  background: transparent;
+  border-radius: 0;
 }
 .response-node-live {
   width: 52px;

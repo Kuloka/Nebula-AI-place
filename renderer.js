@@ -2648,14 +2648,6 @@
       delete msg.animateOnRender;
     }
     body.appendChild(textEl);
-    if (role === "assistant" && visibleAssistantText.trim()) {
-      const signature = document.createElement("img");
-      signature.className = "response-node-icon response-node-static";
-      signature.src = "resources/nevo-node-static.svg";
-      signature.alt = "";
-      signature.setAttribute("aria-hidden", "true");
-      body.appendChild(signature);
-    }
     if (role === "assistant" && msg.codeActivity) {
       const activityWrap = document.createElement("div");
       activityWrap.className = "code-activity-wrap";
@@ -2726,6 +2718,14 @@
       });
       actions.appendChild(copyBtn);
       body.appendChild(actions);
+      if (visibleAssistantText.trim()) {
+        const signature = document.createElement("img");
+        signature.className = "response-node-icon response-node-static";
+        signature.src = "resources/nevo-node-static.svg";
+        signature.alt = "";
+        signature.setAttribute("aria-hidden", "true");
+        body.appendChild(signature);
+      }
     }
 
     m.appendChild(body);
