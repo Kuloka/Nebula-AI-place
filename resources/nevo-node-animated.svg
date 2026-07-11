@@ -1,18 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 223">
   <style>
-    @keyframes orbit1{0%,100%{transform:translate(0,0)}50%{transform:translate(4px,-5px)}}
-    @keyframes orbit2{0%,100%{transform:translate(0,0)}50%{transform:translate(6px,3px)}}
-    @keyframes orbit3{0%,100%{transform:translate(0,0)}50%{transform:translate(3px,6px)}}
-    @keyframes orbit4{0%,100%{transform:translate(0,0)}50%{transform:translate(-4px,5px)}}
-    @keyframes orbit5{0%,100%{transform:translate(0,0)}50%{transform:translate(-6px,-3px)}}
-    @keyframes orbit6{0%,100%{transform:translate(0,0)}50%{transform:translate(-3px,-6px)}}
-    @keyframes line-breathe{0%,100%{opacity:.2}50%{opacity:.7}}
-    @keyframes core-pulse{0%,100%{r:6;opacity:.7}50%{r:10;opacity:1}}
-    .o1{transform-box:fill-box;transform-origin:center;animation:orbit1 3.2s ease-in-out infinite}.o2{transform-box:fill-box;transform-origin:center;animation:orbit2 3.6s ease-in-out infinite}.o3{transform-box:fill-box;transform-origin:center;animation:orbit3 3s ease-in-out infinite}.o4{transform-box:fill-box;transform-origin:center;animation:orbit4 3.8s ease-in-out infinite}.o5{transform-box:fill-box;transform-origin:center;animation:orbit5 3.3s ease-in-out infinite}.o6{transform-box:fill-box;transform-origin:center;animation:orbit6 3.5s ease-in-out infinite}
-    .ln{animation:line-breathe 2.4s ease-in-out infinite}.ln:nth-child(2){animation-delay:.1s}.ln:nth-child(3){animation-delay:.2s}.ln:nth-child(4){animation-delay:.3s}.ln:nth-child(5){animation-delay:.4s}.ln:nth-child(6){animation-delay:.5s}.ln:nth-child(7){animation-delay:.15s}.ln:nth-child(8){animation-delay:.25s}.ln:nth-child(9){animation-delay:.35s}.ln:nth-child(10){animation-delay:.45s}.ln:nth-child(11){animation-delay:.05s}.ln:nth-child(12){animation-delay:.55s}.core{animation:core-pulse 1.6s ease-in-out infinite}
+    @keyframes squash-stretch{0%,100%{transform:scale(1) rotate(0)}25%{transform:scale(.97,1.04) rotate(-1.5deg)}50%{transform:scale(1.03,.96) rotate(0)}75%{transform:scale(.98,1.03) rotate(1.5deg)}}
+    @keyframes eyes-drift{0%,100%{transform:translate(0)}20%{transform:translate(-2px,-1px)}40%{transform:translate(1px,2px)}60%{transform:translate(2px,-1px)}80%{transform:translate(-1px,1px)}}
+    .ghost-alive{animation:squash-stretch 3.5s ease-in-out infinite;transform-origin:90px 178px}.pupils-drift{animation:eyes-drift 4.5s ease-in-out infinite}
   </style>
-  <g fill="none" stroke="#FF6A1A" stroke-width="2">
-    <line class="ln" x1="80" y1="80" x2="80" y2="30"/><line class="ln" x1="80" y1="80" x2="130" y2="55"/><line class="ln" x1="80" y1="80" x2="130" y2="105"/><line class="ln" x1="80" y1="80" x2="80" y2="130"/><line class="ln" x1="80" y1="80" x2="30" y2="105"/><line class="ln" x1="80" y1="80" x2="30" y2="55"/><line class="ln" x1="80" y1="30" x2="130" y2="55"/><line class="ln" x1="130" y1="55" x2="130" y2="105"/><line class="ln" x1="130" y1="105" x2="80" y2="130"/><line class="ln" x1="80" y1="130" x2="30" y2="105"/><line class="ln" x1="30" y1="105" x2="30" y2="55"/><line class="ln" x1="30" y1="55" x2="80" y2="30"/>
+  <defs>
+    <linearGradient id="ghostGradAlive" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3E5C78"/>
+      <stop offset="100%" stop-color="#1E3348"/>
+    </linearGradient>
+  </defs>
+  <g class="ghost-alive">
+    <path d="M10 178V89C10 40 42 5 90 5s80 35 80 84v89s-12 24-27 0c-10 20-25 20-35 0-6 16-30 16-36 0-10 20-25 20-35 0-15 24-27 0-27 0Z" fill="url(#ghostGradAlive)"/>
+    <circle cx="64" cy="84" r="16" fill="#EDEBE3"/>
+    <circle cx="116" cy="84" r="16" fill="#EDEBE3"/>
+    <g class="pupils-drift"><circle cx="68" cy="87" r="6.5" fill="#0F1E2B"/><circle cx="120" cy="87" r="6.5" fill="#0F1E2B"/></g>
   </g>
-  <circle class="core" cx="80" cy="80" r="6" fill="#FFB27A"/><circle class="o1" cx="80" cy="30" r="11" fill="#FF6A1A"/><circle class="o2" cx="130" cy="55" r="9" fill="#FF7E33"/><circle class="o3" cx="130" cy="105" r="11" fill="#FF6A1A"/><circle class="o4" cx="80" cy="130" r="9" fill="#FF7E33"/><circle class="o5" cx="30" cy="105" r="11" fill="#FF6A1A"/><circle class="o6" cx="30" cy="55" r="9" fill="#FF7E33"/>
 </svg>

@@ -1,8 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
-  <g fill="none" stroke="#FF6A1A" stroke-width="2" opacity=".55">
-    <path d="M80 80 80 30M80 80 130 55M80 80 130 105M80 80 80 130M80 80 30 105M80 80 30 55M80 30 130 55 130 105 80 130 30 105 30 55Z"/>
-  </g>
-  <circle cx="80" cy="80" r="6" fill="#FFB27A"/>
-  <g fill="#FF6A1A"><circle cx="80" cy="30" r="11"/><circle cx="130" cy="105" r="11"/><circle cx="30" cy="105" r="11"/></g>
-  <g fill="#FF7E33"><circle cx="130" cy="55" r="9"/><circle cx="80" cy="130" r="9"/><circle cx="30" cy="55" r="9"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 223">
+  <defs>
+    <linearGradient id="ghostGradDark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3E5C78"/>
+      <stop offset="100%" stop-color="#1E3348"/>
+    </linearGradient>
+  </defs>
+  <path d="M10 178V89C10 40 42 5 90 5s80 35 80 84v89s-12 24-27 0c-10 20-25 20-35 0-6 16-30 16-36 0-10 20-25 20-35 0-15 24-27 0-27 0Z" fill="url(#ghostGradDark)"/>
+  <circle cx="64" cy="84" r="16" fill="#EDEBE3"/>
+  <circle cx="116" cy="84" r="16" fill="#EDEBE3"/>
+  <circle cx="68" cy="87" r="6.5" fill="#0F1E2B"/>
+  <circle cx="120" cy="87" r="6.5" fill="#0F1E2B"/>
 </svg>
