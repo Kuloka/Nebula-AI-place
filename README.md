@@ -1,4 +1,5 @@
-<img width="1037" height="274" alt="image" src="https://github.com/user-attachments/assets/aaed2667-dff7-4612-ba08-b880d3c320cf" />
+<img width="591" height="198" alt="Снимок экрана 2026-07-07 225709" src="https://github.com/user-attachments/assets/fd587a1f-7ddb-4505-9d42-4c07eb8a0740" />
+
 
 
 
