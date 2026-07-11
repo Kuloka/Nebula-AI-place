@@ -1,4 +1,4 @@
-<img width="591" height="198" alt="Снимок экрана 2026-07-07 225709" src="https://github.com/user-attachments/assets/fd587a1f-7ddb-4505-9d42-4c07eb8a0740" />
+<img width="2163" height="727" alt="ChatGPT Image 7 июл  2026 г , 23_16_07" src="https://github.com/user-attachments/assets/08333f70-cbed-424a-88f0-a10c1ba08499" />
 
 
 
