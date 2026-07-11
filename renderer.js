@@ -2720,14 +2720,6 @@
       });
       actions.appendChild(copyBtn);
       body.appendChild(actions);
-      if (visibleAssistantText.trim()) {
-        const signature = document.createElement("img");
-        signature.className = "response-node-icon response-node-static";
-        signature.src = "resources/nevo-logo.png";
-        signature.alt = "";
-        signature.setAttribute("aria-hidden", "true");
-        body.appendChild(signature);
-      }
     }
 
     m.appendChild(body);
