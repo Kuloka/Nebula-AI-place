@@ -136,8 +136,9 @@
         <!-- Attachments preview -->
         <div class="attachment-strip" id="attachmentStrip" style="display:none"></div>
 
-        <!-- Input field -->
-        <div class="composer-field electric-border">
+        <!-- Input field and its expanding settings panel -->
+        <div class="composer-shell">
+          <div class="composer-field electric-border">
           <div class="eb-canvas-container" aria-hidden="true">
             <canvas class="eb-canvas electric-border-canvas" id="electricBorderCanvas"></canvas>
           </div>
@@ -165,6 +166,7 @@
         <div class="composer-controls">
           <div class="model-selector" id="modelSelector">
             <button class="model-btn" id="modelBtn" title="Choose model" aria-label="Choose model" data-tooltip="Choose model">
+              <span class="model-btn-icon" id="modelBtnIcon" aria-hidden="true"></span>
               <span class="model-btn-label" id="modelLabel">Choose model</span>
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
@@ -211,7 +213,16 @@
               <div class="think-item" data-think="low">Low</div>
               <div class="think-item" data-think="none">No thinking</div>
             </div>
+            </div>
           </div>
+          <svg class="composer-moving-border" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+            <rect class="composer-moving-border-glow" x="3" y="3" width="994" height="94" rx="22" ry="22" pathLength="100">
+              <animate attributeName="stroke-dashoffset" values="0;-100" dur="2.4s" repeatCount="indefinite" />
+            </rect>
+            <rect class="composer-moving-border-core" x="3" y="3" width="994" height="94" rx="22" ry="22" pathLength="100">
+              <animate attributeName="stroke-dashoffset" values="0;-100" dur="2.4s" repeatCount="indefinite" />
+            </rect>
+          </svg>
         </div>
 
       </div>

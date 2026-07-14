@@ -41,6 +41,7 @@ contextBridge.exposeInMainWorld('api', {
   internetSearch: (query)         => ipcRenderer.invoke('internet:search', query),
   openProjectsFolder: ()          => ipcRenderer.invoke('projects:open-folder'),
   getProjectsRoot: ()             => ipcRenderer.invoke('projects:get-root'),
+  terminalRun: (command)          => ipcRenderer.invoke('terminal:run', command),
   ensureProjectFolder: (name, preferredFolderName) => ipcRenderer.invoke('projects:ensure-folder', name, preferredFolderName),
   renameProjectFolder: (oldFolderName, newName) => ipcRenderer.invoke('projects:rename-folder', oldFolderName, newName),
   writeProjectFile: (folderName, filePath, content) => ipcRenderer.invoke('projects:write-file', folderName, filePath, content),

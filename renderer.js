@@ -129,6 +129,7 @@
   }
 
   const modelBtn = $("modelBtn");
+  const modelBtnIcon = $("modelBtnIcon");
   const modelLabel = $("modelLabel");
   const modelDropdown = $("modelDropdown");
 
@@ -1172,7 +1173,7 @@
     if (panelTitle) panelTitle.textContent = t("nevoActions");
     const panelPreviewTitle = document.querySelector(".panel-progress-title");
     if (panelPreviewTitle) panelPreviewTitle.textContent = t("codingPreview");
-    if (modelLabel && !settings.selectedModel) modelLabel.textContent = t("chooseModel");
+    if (!settings.selectedModel) renderSelectedModel(null);
     const settingsTitle = document.querySelector("#settingsModal .modal-header h2");
     if (settingsTitle) settingsTitle.textContent = t("settings");
     const settingsTitles = settingsModal?.querySelectorAll(".settings-title");
@@ -1425,7 +1426,9 @@
     };
 
     const drawElectricBorder = currentTime => {
-      const active = (document.body.classList.contains("is-generating") || document.body.classList.contains("has-composer-sheet")) && !document.hidden;
+      // Keep the canvas effect for open sheets only. Redrawing its noisy border every
+      // frame while Ollama generates a response causes avoidable UI stutter.
+      const active = document.body.classList.contains("has-composer-sheet") && !document.hidden;
       if (!active) {
         if (wasActive) {
           wasActive = false;
@@ -1616,12 +1619,14 @@
         if (modelSupportsVision(m.name)) flags.push("Vision");
         if (modelSupportsThink(m.name)) flags.push("Think");
         item.innerHTML = `
+          <span class="model-item-icon" aria-hidden="true">${providerIconMarkup(m)}</span>
           <span class="model-item-name">${m.name} ${flags.length ? `<span style="opacity:0.6">${flags.join(" ")}</span>` : ""}</span>
           ${m.size ? `<span class="model-item-size">${formatSize(m.size)}</span>` : ""}
         `;
         item.addEventListener("click", () => {
           selectModel(m.name);
           modelDropdown.classList.remove("show");
+          syncComposerExpanded();
         });
         modelDropdown.appendChild(item);
       });
@@ -1641,9 +1646,17 @@
     modelDropdown.appendChild(moreRow);
   }
 
+  function renderSelectedModel(name) {
+    if (modelLabel) modelLabel.textContent = name || t("chooseModel");
+    if (modelBtnIcon) {
+      modelBtnIcon.innerHTML = name ? providerIconMarkup({ name }) : "";
+      modelBtnIcon.hidden = !name;
+    }
+  }
+
   function selectModel(name) {
     settings.selectedModel = name;
-    modelLabel.textContent = name;
+    renderSelectedModel(name);
     welcomeHint.textContent = settings.appLanguage === "ru" ? `\u041c\u043e\u0434\u0435\u043b\u044c: ${name} - \u0433\u043e\u0442\u043e\u0432\u0430.` : `Model: ${name} - ready.`;
     persist();
     renderModelDropdown();
@@ -1655,6 +1668,7 @@
     accessDropdown?.classList.remove("show");
     modelDropdown.classList.toggle("show");
     renderModelDropdown();
+    syncComposerExpanded();
   });
 
   // ============================================================
@@ -1680,11 +1694,13 @@
     modelDropdown.classList.remove("show");
     accessDropdown?.classList.remove("show");
     thinkDropdown.classList.toggle("show");
+    syncComposerExpanded();
   });
   thinkDropdown.querySelectorAll(".think-item").forEach(it => {
     it.addEventListener("click", () => {
       setThinkLevel(it.dataset.think);
       thinkDropdown.classList.remove("show");
+      syncComposerExpanded();
     });
   });
 
@@ -1709,11 +1725,13 @@
     modelDropdown.classList.remove("show");
     thinkDropdown.classList.remove("show");
     accessDropdown?.classList.toggle("show");
+    syncComposerExpanded();
   });
   accessDropdown?.querySelectorAll(".access-item").forEach(it => {
     it.addEventListener("click", () => {
       setAccessMode(it.dataset.access);
       accessDropdown.classList.remove("show");
+      syncComposerExpanded();
     });
   });
 
@@ -1729,10 +1747,12 @@
   });
 
   // закрытие дропдаунов по клику вне
-  document.addEventListener("click", () => {
+  document.addEventListener("click", event => {
+    if (event.target.closest(".composer-controls")) return;
     modelDropdown.classList.remove("show");
     thinkDropdown.classList.remove("show");
     accessDropdown?.classList.remove("show");
+    syncComposerExpanded();
   });
   window.addEventListener("resize", () => {
     if (setupSheet?.classList.contains("show")) positionSetupSheet();
@@ -1864,7 +1884,14 @@
         appendTerminalLine(`explorer ${res.path}`);
       }
     } else {
-      appendTerminalLine("Command execution is routed through Nevo actions.");
+      const result = await window.api.terminalRun?.(cmd);
+      if (!result) {
+        appendTerminalLine("Terminal is unavailable.");
+        return;
+      }
+      if (result.stdout) appendTerminalLine(result.stdout.trimEnd());
+      if (result.stderr) appendTerminalLine(result.stderr.trimEnd());
+      if (!result.ok && result.error) appendTerminalLine(result.error);
     }
   });
   document.addEventListener("keydown", (e) => {
@@ -1898,35 +1925,21 @@
     removeThinkingMessage();
     currentThinkingLines = [];
     startNeuralProgress(mode, web);
-    const waitingText = settings.appLanguage === "ru"
-      ? (mode === "image" ? "\u0421\u043e\u0437\u0434\u0430\u044e \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435" : "\u0414\u0443\u043c\u0430\u044e")
-      : (mode === "image" ? "Creating image" : "Thinking");
+    const waitingText = mode === "image"
+      ? (settings.appLanguage === "ru" ? "\u0421\u043e\u0437\u0434\u0430\u044e \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435..." : "Creating image...")
+      : "NevoAI is thinking...";
     thinkingEl = document.createElement("div");
     thinkingEl.className = "message assistant thinking-message";
     thinkingEl.innerHTML = `
       <div class="message-body">
         <div class="thinking-inline">
-          <span class="thinking-logo" aria-hidden="true">
-            <img class="thinking-logo-ghost" src="resources/nevo-logo.png" alt="">
-            <img class="thinking-logo-line" src="resources/nevo-logo.png" alt="">
-          </span>
           <span class="thinking-main">
-            <span class="thinking-label">${escapeHtml(waitingText)}</span>
-            <span class="thinking-time">0s</span>
+            <span class="thinking-label thinking-shining-text">${escapeHtml(waitingText)}</span>
           </span>
         </div>
       </div>
     `;
-    animateBlurText(thinkingEl.querySelector(".thinking-main"));
     messagesEl.appendChild(thinkingEl);
-    thinkingStartedAt = Date.now();
-    clearInterval(thinkingTicker);
-    thinkingTicker = setInterval(() => {
-      if (!thinkingEl) return;
-      const elapsedMs = Date.now() - thinkingStartedAt;
-      const timeEl = thinkingEl.querySelector(".thinking-time");
-      if (timeEl) timeEl.textContent = `${Math.max(0, Math.floor(elapsedMs / 1000))}s`;
-    }, 250);
     chatContainer.scrollTop = chatContainer.scrollHeight;
   }
 
@@ -1936,12 +1949,8 @@
 
   function setThinkingExploring(domain) {
     if (!thinkingEl || !domain) return;
-    const logo = thinkingEl.querySelector(".thinking-logo");
     const label = thinkingEl.querySelector(".thinking-label");
     const cleanDomain = String(domain || "").replace(/^www\./, "");
-    if (logo) {
-      logo.innerHTML = `<img class="thinking-favicon" src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(cleanDomain)}&sz=64" alt="">`;
-    }
     if (label) {
       label.textContent = `Exploring ${cleanDomain}`;
       animateBlurText(label);
@@ -2008,7 +2017,7 @@
 
   function restoreThinkingDefault(mode = "answer") {
     if (!thinkingEl) return;
-    const logo = thinkingEl.querySelector(".thinking-logo");
+    const logo = null;
     const label = thinkingEl.querySelector(".thinking-label");
     const text = settings.appLanguage === "ru"
       ? (mode === "image" ? "Создаю изображение" : "Думаю")
@@ -2020,9 +2029,7 @@
       `;
     }
     if (label) {
-      label.textContent = settings.appLanguage === "ru"
-        ? (mode === "image" ? "\u0421\u043e\u0437\u0434\u0430\u044e \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435" : "\u0414\u0443\u043c\u0430\u044e")
-        : text;
+      label.textContent = mode === "image" ? "Creating image..." : "NevoAI is thinking...";
     }
   }
 
@@ -2416,7 +2423,11 @@
   }
 
   function renderAttachments() {
-    if (attachments.length === 0) { attachmentStrip.style.display = "none"; return; }
+    if (attachments.length === 0) {
+      attachmentStrip.style.display = "none";
+      syncComposerExpanded();
+      return;
+    }
     attachmentStrip.style.display = "flex";
     attachmentStrip.innerHTML = "";
     attachments.forEach((a, idx) => {
@@ -2441,6 +2452,7 @@
         updateSendBtn();
       });
     });
+    syncComposerExpanded();
   }
 
   // drag&drop файлов в composer
@@ -2836,7 +2848,7 @@
       moondream: "https://www.google.com/s2/favicons?domain=moondream.ai&sz=128",
       starcoder: "https://www.google.com/s2/favicons?domain=bigcode-project.org&sz=128",
       llava: "https://www.google.com/s2/favicons?domain=llava-vl.github.io&sz=128",
-      ollama: "https://cdn.simpleicons.org/ollama/111111",
+      ollama: "https://cdn.simpleicons.org/ollama/ffffff",
     };
     const src = logoMap[kind] || "";
     const initial = escapeHtml(providerInitial(model));
@@ -3082,7 +3094,7 @@
     if (lower.includes("\u0441\u0433\u0435\u043d\u0435\u0440") || lower.includes("generate")) return true;
     const generateWords = [
       "\u0441\u0433\u0435\u043d\u0435\u0440", "\u0441\u043e\u0437\u0434\u0430\u0439", "\u0441\u0434\u0435\u043b\u0430\u0439", "\u043d\u0430\u0440\u0438\u0441\u0443\u0439",
-      "\u043d\u0430\u0440\u0438\u0441\u043e\u0432\u0430\u0442\u044c", "\u0438\u0437\u043e\u0431\u0440\u0430\u0437\u0438", "\u0444\u043e\u0442\u043e",
+      "\u043d\u0430\u0440\u0438\u0441\u043e\u0432\u0430\u0442\u044c", "\u0438\u0437\u043e\u0431\u0440\u0430\u0437\u0438",
       "generate", "create", "draw", "make", "paint", "render"
     ];
     const imageWords = [
@@ -3712,7 +3724,9 @@
     let text = displayText;
     const imgs = attachments.filter(a => a.kind === "image").map(a => a.base64);
     if ((!text && attachments.length === 0) || isGenerating) return;
-    const wantsImageGeneration = looksLikeImageGenerationRequest(text);
+    // A photo attached to a question is input for vision analysis, not a request
+    // to generate a new image (for example: "what is in this photo?").
+    const wantsImageGeneration = imgs.length === 0 && looksLikeImageGenerationRequest(text);
     if (!wantsImageGeneration) {
       text = await collectBuildDetails(text);
     }
@@ -3852,7 +3866,19 @@
     inputEl.style.height = "auto";
     inputEl.style.height = Math.min(inputEl.scrollHeight, 180) + "px";
   }
-  inputEl.addEventListener("input", () => { autoResize(); updateSendBtn(); });
+  function syncComposerExpanded() {
+    const hasContent = inputEl.value.trim().length > 0 || attachments.length > 0;
+    const hasOpenMenu = modelDropdown.classList.contains("show")
+      || thinkDropdown.classList.contains("show")
+      || accessDropdown?.classList.contains("show");
+    composerField?.classList.toggle("composer-expanded", hasContent || document.activeElement === inputEl || hasOpenMenu);
+  }
+  inputEl.addEventListener("focus", syncComposerExpanded);
+  // A button click moves focus before its click handler runs. Give that handler
+  // a moment to open its menu before deciding whether the composer can collapse.
+  inputEl.addEventListener("blur", () => setTimeout(syncComposerExpanded, 120));
+  inputEl.addEventListener("input", () => { autoResize(); updateSendBtn(); syncComposerExpanded(); });
+  syncComposerExpanded();
   inputEl.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   });
@@ -3864,6 +3890,7 @@
       inputEl.value = btn.dataset.prompt;
       autoResize();
       updateSendBtn();
+      syncComposerExpanded();
       sendMessage();
     });
   });
@@ -4091,7 +4118,7 @@
     if (c && c.model && c.model !== settings.selectedModel) {
       // подгружаем модель чата
       settings.selectedModel = c.model;
-      modelLabel.textContent = c.model;
+      renderSelectedModel(c.model);
     }
     renderMessages();
     renderSidebar();
@@ -4429,7 +4456,7 @@
                 const deleted = await window.api.deleteModel(model);
                 if (deleted?.ok && settings.selectedModel === model) {
                   settings.selectedModel = null;
-                  if (modelLabel) modelLabel.textContent = t("chooseModel");
+                  renderSelectedModel(null);
                   await persist();
                 }
                 await checkOllama();
@@ -4545,7 +4572,7 @@
     applyButtonTooltips();
     renderSettings();
     renderProgress();
-    if (settings.selectedModel) modelLabel.textContent = settings.selectedModel;
+    renderSelectedModel(settings.selectedModel);
     initThreadsBackground();
     initElectricComposerBorder();
     typeWelcomeTitle();

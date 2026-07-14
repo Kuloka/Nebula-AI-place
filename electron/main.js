@@ -806,6 +806,27 @@ ipcMain.handle('projects:get-root', async () => {
   return { ok: true, path: PROJECTS_DIR };
 });
 
+ipcMain.handle('terminal:run', async (_e, command) => {
+  const input = String(command || '').trim();
+  if (!input) return { ok: false, error: 'Command is empty.' };
+  ensureProjectsDir();
+  return new Promise(resolve => {
+    exec(input, {
+      cwd: PROJECTS_DIR,
+      windowsHide: true,
+      timeout: 120000,
+      maxBuffer: 1024 * 1024
+    }, (error, stdout, stderr) => {
+      resolve({
+        ok: !error,
+        stdout: String(stdout || ''),
+        stderr: String(stderr || ''),
+        error: error ? error.message : ''
+      });
+    });
+  });
+});
+
 ipcMain.handle('projects:ensure-folder', async (_e, name, preferredFolderName = null) => {
   try {
     const folder = ensureProjectFolder(name, preferredFolderName);
